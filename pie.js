@@ -99,8 +99,8 @@ function UpdatePie(selectedOption, selectedCountry, filteredData, consistentColo
         yy = c[1],
         // pythagorean theorem for hypotenuse
         h1 = Math.sqrt(xx * xx + yy * yy);
-      return "translate(" + (xx / h1 * radius*1.05) + ',' +
-        (yy / h1 * radius*1.05) + ")";
+      return "translate(" + (xx / h1 * radius * 1.05) + ',' +
+        (yy / h1 * radius * 1.05) + ")";
     })
     .attr("dy", ".50em")
     .attr("text-anchor", function (d) {
@@ -120,7 +120,17 @@ function UpdatePie(selectedOption, selectedCountry, filteredData, consistentColo
         return color(i).darker(1)
       }
     })
-    .text(function (d) { f = d3.format(".1~f"); if (selectedOption == 0) { return f(d.data.perc_c) + '%' } else { return f(d.data.perc_d) + '%' } });
+    .text(function (d) {
+      f = d3.format(".1~f");
+      if (selectedOption == 0) {
+        txt = ''
+        if (d.data.perc_c >= 5) { txt = f(d.data.perc_c) + '%' }
+      }
+      else {
+        txt = ''
+        if (d.data.perc_d >= 5) { txt = f(d.data.perc_d) + '%' }
+      }
+    });
 
   var legend = d3.select("#my_dataviz").append("svg")
     .attr("class", "legend")
@@ -149,7 +159,7 @@ function UpdatePie(selectedOption, selectedCountry, filteredData, consistentColo
   piedots.on("mouseover", function (d) {
     f = d3.format(".2s");
     if (selectedOption == 0) { amt = d.data.New_cases } else { amt = d.data.New_deaths }
-    tooltip.select("p").html("Year: " + d.data.year + "<br />"+ss+": " + f(amt) + "<br/>Click for details."); return tooltip.style("visibility", "visible")
+    tooltip.select("p").html("Year: " + d.data.year + "<br />" + ss + ": " + f(amt) + "<br/>Click for details."); return tooltip.style("visibility", "visible")
   })
     .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
     .on("mouseout", function () {
