@@ -1,4 +1,4 @@
-function createBar2(selectedCountry, selectedOption, consistentColor,selectedyear) {
+function createBar2(selectedCountry, selectedOption, consistentColor, selectedyear) {
 
   var filteredData
 
@@ -14,7 +14,7 @@ function createBar2(selectedCountry, selectedOption, consistentColor,selectedyea
       DeathsY = filteredData.map(function (d) { return parseInt(d.New_deaths) })
       MonthX = filteredData.map(function (d) { return d.monthname })
       df = filteredData
-      UpdateBar2(selectedOption, selectedCountry, filteredData, consistentColor,selectedyear,CasesY,DeathsY, MonthX)
+      UpdateBar2(selectedOption, selectedCountry, filteredData, consistentColor, selectedyear, CasesY, DeathsY, MonthX)
 
     }
     )
@@ -27,10 +27,10 @@ function UpdateBar2(selectedOption, selectedCountry, filteredData, consistentCol
   d3.selectAll("svg").remove();
 
   if (selectedOption == 0) { ss = 'Cases' } else { ss = "Deaths" }
-  s2 = "<h4>This bar chart shows monthly distribution of confirmed " + ss + " in " + selectedCountry +" for the year "+selectedyear+ "</h4>"
-  s1 = "<h1>Year: "+selectedyear+" Distribution of COVID "+ ss+" for "+ selectedCountry +"</h1>"
+  s2 = "<h4>This bar chart shows monthly distribution of confirmed " + ss + " in " + selectedCountry + " for the year " + selectedyear + "</h4>"
+  s1 = "<h1>Year: " + selectedyear + " Distribution of COVID " + ss + " for " + selectedCountry + "</h1>"
   s3 = "<h4 style='color:chocolate'>Hover on bars to find out more!!!</h4>"
-  heading = s1+s2+s3
+  heading = s1 + s2 + s3
   d3.select("#description").html(heading)
 
   var ys
@@ -55,31 +55,35 @@ function UpdateBar2(selectedOption, selectedCountry, filteredData, consistentCol
     .style("visibility", "hidden");
   tooltip.append("p");
 
+
   d3.select("svg")
     .append("g")
     .attr("transform", "translate(" + margin2 + "," + margin + ")")
     .call(d3.axisLeft(ys).tickFormat(d3.format("~s")))
+    .selectAll("text")
+    .style("font-family", "Calibri, sans-serif;")
+    .style("font-weight", "bold;")
+    .style("font-size", "12px;");
 
   d3.select("svg")
     .append("g")
     .attr("transform", "translate(" + margin2 + "," + (height + margin) + ")")
     .call(d3.axisBottom(xs))
-
-    d3.select("svg")
-    .append("g")
-    .attr("transform", "translate(" + margin2 + "," + margin + ")")
-    .call(d3.axisLeft(ys).tickFormat(d3.format("~s")))
-
-  d3.select("svg")
-    .append("g")
-    .attr("transform", "translate(" + margin2 + "," + (height + margin) + ")")
-    .call(d3.axisBottom(xs))
+    .selectAll("text")
+    .style("text-anchor", "end")
+    .attr("dx", "-1em")
+    .attr("dy", "-0.5em")
+    .attr("transform", "rotate(-60)")
+    .style("font-family", "Calibri, sans-serif;")
+    .style("font-weight", "bold;")
+    .style("font-size", "12px;");
 
 
   var dots = d3.select("svg")
     .append("g")
     .attr("transform", "translate(" + margin2 + "," + margin + ")")
-    .selectAll('rect')
+
+  rects = dots.selectAll('rect')
     .data(df)
     .enter()
     .append('rect')
@@ -87,7 +91,7 @@ function UpdateBar2(selectedOption, selectedCountry, filteredData, consistentCol
     .attr('width', xs.bandwidth())
     .attr("y", d => { return height; })
     .attr("height", 0)
-  dots.transition()
+  rects.transition()
     .duration(750)
     .delay(function (d, i) {
       return i * 150;
@@ -106,7 +110,67 @@ function UpdateBar2(selectedOption, selectedCountry, filteredData, consistentCol
     })
     .attr("fill", color)
     .text(d => d.value)
-  dots.on("mouseover", function (d) {
+
+
+  var texts = dots.selectAll(".myLabels")
+    .data(filteredData)
+    .enter()
+    .append("text")
+    .attr("class", "myLabels");
+
+  texts.attr('x', function (d, i) { return xs(d.monthname); })
+    .attr('width', xs.bandwidth())
+    .attr("y", d => { return height; })
+    .attr("height", 0)
+    .attr("text-anchor", "middle")
+    .style("font-family", "Calibri, sans-serif;")
+    .style("font-weight", "bold;")
+    .attr("fill", function (d) {
+      nColor = d3.rgb(color);
+      var bright_or_dark = 0.2126 * nColor.r + 0.7152 * nColor.g + 0.0722 * nColor.b;
+      if (bright_or_dark <= 200) {
+        return nColor
+      }
+      else {
+        return nColor.darker(1)
+      }
+    });
+
+  texts.transition()
+    .duration(750)
+    .delay(function (d, i) {
+      return i * 150;
+    })
+    .text(function (d) {
+      f = d3.format(".2s"); if (selectedOption == 0) { return f(d.New_cases); } else { return f(d.New_deaths) }
+    })
+    .attr("x", function (d, i) {
+      return xs(d.monthname) + (xs.bandwidth() / 2);
+    })
+    .attr("y", function (d) {
+      if (selectedOption == 0) { return ys(d.New_cases) - 2; } else { return ys(d.New_deaths) - 2 };
+    })
+    .attr('height', function (d) {
+      return 0
+    })
+    .attr("text-anchor", "middle")
+    .style("font-family", "Calibri, sans-serif;")
+    .style("font-weight", "bold;")
+    .attr("fill", function (d) {
+      nColor = d3.rgb(color);
+      var bright_or_dark = 0.2126 * nColor.r + 0.7152 * nColor.g + 0.0722 * nColor.b;
+      if (bright_or_dark <= 200) {
+        return nColor
+      }
+      else {
+        return nColor.darker(1)
+      }
+    });
+
+
+
+
+  rects.on("mouseover", function (d) {
     prevColor = this.style.fill;
     newColor = d3.rgb(d3.select(this).attr("fill"));
     consistentColor = newColor;
@@ -114,10 +178,12 @@ function UpdateBar2(selectedOption, selectedCountry, filteredData, consistentCol
     d3.select(this)
       .style('fill', newColor)
     f = d3.format(".2s")
-    if (selectedOption==0){
-    tip_s = "Confirmed "+ss+":"+ f(d.New_cases) }
+    if (selectedOption == 0) {
+      tip_s = "Confirmed " + ss + ":" + f(d.New_cases)
+    }
     else {
-      tip_s = "Confirmed "+ss+":"+ f(d.New_deaths)}
+      tip_s = "Confirmed " + ss + ":" + f(d.New_deaths)
+    }
     // tooltip.select("p").html(d.Country + "<br />Cases: " + f(d.New_cases) + "<br />Deaths: " + f(d.New_deaths)+ "<br />Click to drill."); return tooltip.style("visibility", "visible")})
     tooltip.select("p").html(tip_s); return tooltip.style("visibility", "visible")
   })
@@ -129,23 +195,22 @@ function UpdateBar2(selectedOption, selectedCountry, filteredData, consistentCol
     .on("click", function (d, i) {
       d3.selectAll("div").html("")
       d3.select("#my_dataviz").html("<h1>Thank you, press the button below to restart.<h1>")
-      d3.select("#my_dataviz").style("left","80%").append("input")
-  .attr("type", "button")
-  .attr("class", "button")
-  .attr("name", "Refresh")
-  .attr("value", "Restart")
-  .attr("onclick", "togglePressed()");
+      d3.select("#my_dataviz").style("left", "80%").append("input")
+        .attr("type", "button")
+        .attr("class", "button")
+        .attr("name", "Refresh")
+        .attr("value", "Restart")
+        .attr("onclick", "togglePressed()");
     })
 
 
 
 
-    d3.select("#option-selector")
+  d3.select("#option-selector")
     .on("change", function (d) {
-
-      UpdateBar2(this.value, selectedCountry, filteredData, consistentColor, selectedyear, CasesY, DeathsY, MonthX) 
+      UpdateBar2(this.value, selectedCountry, filteredData, consistentColor, selectedyear, CasesY, DeathsY, MonthX)
     })
-    
+
 
 
 

@@ -2,7 +2,7 @@ function createBar() {
   d3.csv('https://raw.githubusercontent.com/shaukat-2/DataVisualizationProject/main/Top10CountriesStat.csv')
     .then(function (data) {
       var selection = d3.select("#selectmenu").style("left", "70%").style("top", "40%").append("text").attr("class", "label").text("Make Selection: ")
-        .append("select")
+      selection.append("select")
         .attr("id", "option-selector")
         .selectAll("option")
         .data(selectionValue)
@@ -10,6 +10,8 @@ function createBar() {
         .append("option")
         .text(d => d)
         .attr("value", (d, i) => i)
+
+
 
       CasesY = data.map(function (d) { return d.New_cases })
       DeathsY = data.map(function (d) { return parseInt(d.New_deaths) })
@@ -36,8 +38,9 @@ function UpdateData(selectedOption) {
   s2 = "<h4>This bar plot shows 10 countries with highest number of COVID cases. Drop down menu let's you toggle between confirmed Cases and Deaths stats in these 10 countries.</h4>"
   s1 = "<h1>Top 10 Countries by COVID spread</h1>"
   s3 = "<h4 style='color:chocolate'>Hover on bars to find out more!!!</h4>"
-  heading = s1+s2+s3
+  heading = s1 + s2 + s3
   d3.select("#description").html(heading)
+
 
   var svg = d3.select("#my_dataviz").append("svg").attr("width", window.innerWidth).attr("height", window.innerHeight)
 
@@ -65,17 +68,30 @@ function UpdateData(selectedOption) {
     .append("g")
     .attr("transform", "translate(" + margin2 + "," + margin + ")")
     .call(d3.axisLeft(ys).tickFormat(d3.format("~s")))
+    .selectAll("text")
+    .style("font-family", "Calibri, sans-serif;")
+    .style("font-weight", "bold;")
+    .style("font-size", "12px;");
 
   d3.select("svg")
     .append("g")
     .attr("transform", "translate(" + margin2 + "," + (height + margin) + ")")
     .call(d3.axisBottom(xs))
+    .selectAll("text")
+    .style("text-anchor", "end")
+    .attr("dx", "-1em")
+    .attr("dy", "-0.5em")
+    .attr("transform", "rotate(-60)")
+    .style("font-family", "Calibri, sans-serif;")
+    .style("font-weight", "bold;")
+    .style("font-size", "12px;");
 
 
   var dots = d3.select("svg")
     .append("g")
     .attr("transform", "translate(" + margin2 + "," + margin + ")")
-    .selectAll('rect')
+
+  rects = dots.selectAll('rect')
     .data(df)
     .enter()
     .append('rect')
@@ -83,7 +99,7 @@ function UpdateData(selectedOption) {
     .attr('width', xs.bandwidth())
     .attr("y", d => { return height; })
     .attr("height", 0)
-  dots.transition()
+  rects.transition()
     .duration(750)
     .delay(function (d, i) {
       return i * 150;
@@ -102,7 +118,64 @@ function UpdateData(selectedOption) {
     })
     .attr("fill", function (d) { return blues(d.Country); })
     .text(d => d.value)
-  dots.on("mouseover", function (d) {
+
+
+  var texts = dots.selectAll(".myLabels")
+    .data(df)
+    .enter()
+    .append("text")
+    .attr("class", "myLabels");
+
+  texts.attr('x', function (d, i) { return xs(d.Country); })
+    .attr('width', xs.bandwidth())
+    .attr("y", d => { return height; })
+    .attr("height", 0)
+    .attr("text-anchor", "middle")
+    .style("font-family", "Calibri, sans-serif;")
+    .style("font-weight", "bold;")
+    .attr("fill", function (d) {
+      nColor = d3.rgb(blues(d.Country));
+      var bright_or_dark = 0.2126 * nColor.r + 0.7152 * nColor.g + 0.0722 * nColor.b;
+      if (bright_or_dark <= 200) {
+        return nColor
+      }
+      else {
+        return nColor.darker(1)
+      }
+    });
+
+  texts.transition()
+    .duration(750)
+    .delay(function (d, i) {
+      return i * 150;
+    })
+    .text(function (d) {
+      f = d3.format(".2s"); if (selectedOption == 0) { return f(d.New_cases); } else { return f(d.New_deaths) }
+    })
+    .attr("x", function (d, i) {
+      return xs(d.Country) + (xs.bandwidth() / 2);
+    })
+    .attr("y", function (d) {
+      if (selectedOption == 0) { return ys(d.New_cases) - 2; } else { return ys(d.New_deaths) - 2 };
+    })
+    .attr('height', function (d) {
+      return 0 
+    })
+    .attr("text-anchor", "middle")
+    .style("font-family", "Calibri, sans-serif;")
+    .style("font-weight", "bold;")
+    .attr("fill", function (d) {
+      nColor = d3.rgb(blues(d.Country));
+      var bright_or_dark = 0.2126 * nColor.r + 0.7152 * nColor.g + 0.0722 * nColor.b;
+      if (bright_or_dark <= 200) {
+        return nColor
+      }
+      else {
+        return nColor.darker(1)
+      }
+    });
+
+  rects.on("mouseover", function (d) {
     prevColor = this.style.fill;
     newColor = d3.rgb(d3.select(this).attr("fill"));
     consistentColor = newColor;

@@ -28,9 +28,9 @@ function UpdatePie(selectedOption, selectedCountry, filteredData, consistentColo
 
   if (selectedOption == 0) { ss = 'Cases' } else { ss = "Deaths" }
   s2 = "<h4>This pie chart shows year-wise distribution of confirmed " + ss + " in " + selectedCountry + "</h4>"
-  s1 = "<h1>Year-Wise Distribution of COVID "+ ss+" for "+ selectedCountry +"</h1>"
+  s1 = "<h1>Year-Wise Distribution of COVID " + ss + " for " + selectedCountry + "</h1>"
   s3 = "<h4 style='color:chocolate'>Hover on slices to find out more!!!</h4>"
-  heading = s1+s2+s3
+  heading = s1 + s2 + s3
   d3.select("#description").html(heading)
 
   var bright_or_dark = 0.2126 * consistentColor.r + 0.7152 * consistentColor.g + 0.0722 * consistentColor.b;
@@ -61,8 +61,9 @@ function UpdatePie(selectedOption, selectedCountry, filteredData, consistentColo
   h = window.innerHeight;
   radius = Math.min(width, height) / 2;
 
-  var g = d3.select('#my_dataviz')
+  var svg = d3.select('#my_dataviz')
     .append("svg").attr("width", w).attr("height", h)
+  var g = svg
     .append("g")
     .attr("transform", `translate(${w / 2}, ${h / 2})`);
 
@@ -91,7 +92,35 @@ function UpdatePie(selectedOption, selectedCountry, filteredData, consistentColo
     })
     .attr("stroke", "white")
     .attr("stroke-width", "3px");
-
+  arc.append("text")
+    .attr("transform", function (d) { /*return "translate(" + path.centroid(d) + ")";*/
+      var c = path.centroid(d),
+        xx = c[0],
+        yy = c[1],
+        // pythagorean theorem for hypotenuse
+        h1 = Math.sqrt(xx * xx + yy * yy);
+      return "translate(" + (xx / h1 * radius*1.05) + ',' +
+        (yy / h1 * radius*1.05) + ")";
+    })
+    .attr("dy", ".50em")
+    .attr("text-anchor", function (d) {
+      // are we past the center?
+      return (d.endAngle + d.startAngle) / 2 > Math.PI ?
+        "end" : "start";
+    })
+    .attr("font-size", "1em")
+    .style("font-family", "Calibri, sans-serif;")
+    .style("font-weight", "bold;")
+    .attr("fill", function (d, i) {
+      var bright_or_dark = 0.2126 * color(i).r + 0.7152 * color(i).g + 0.0722 * color(i).b;
+      if (bright_or_dark <= 200) {
+        return color(i)
+      }
+      else {
+        return color(i).darker(1)
+      }
+    })
+    .text(function (d) { f = d3.format(".1~f"); if (selectedOption == 0) { return f(d.data.perc_c) + '%' } else { return f(d.data.perc_d) + '%' } });
 
   var legend = d3.select("#my_dataviz").append("svg")
     .attr("class", "legend")
@@ -111,14 +140,16 @@ function UpdatePie(selectedOption, selectedCountry, filteredData, consistentColo
     .attr("x", 24)
     .attr("y", 9)
     .attr("dy", ".35em")
+    .style("font-family", "Calibri, sans-serif;")
     .text(function (d) { return d.year; });
 
 
 
 
   piedots.on("mouseover", function (d) {
-    f = d3.format(",.1~f");
-    tooltip.select("p").html("Year: " + d.data.year + "<br />" + f((d.endAngle - d.startAngle) / (2 * Math.PI) * 100) + "%<br/>Click for details."); return tooltip.style("visibility", "visible")
+    f = d3.format(".2s");
+    if (selectedOption == 0) { amt = d.data.New_cases } else { amt = d.data.New_deaths }
+    tooltip.select("p").html("Year: " + d.data.year + "<br />"+ss+": " + f(amt) + "<br/>Click for details."); return tooltip.style("visibility", "visible")
   })
     .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
     .on("mouseout", function () {
@@ -132,7 +163,7 @@ function UpdatePie(selectedOption, selectedCountry, filteredData, consistentColo
       consistentColor = newColor;
       d3.select("#my_dataviz").html("")
       d3.select("#description").html("")
-      createBar2(selectedCountry, selectedOption, consistentColor,selectedyear);
+      createBar2(selectedCountry, selectedOption, consistentColor, selectedyear);
     })
 
   d3.select("#option-selector")
