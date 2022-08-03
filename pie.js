@@ -124,13 +124,14 @@ function UpdatePie(selectedOption, selectedCountry, filteredData, consistentColo
       f = d3.format(".1~f");
       if (selectedOption == 0) {
         txt = ''
-        if (d.data.perc_c >= 5) { txt = f(d.data.perc_c) + '%' }
+        console.log(d.data.perc_c)
+        if (d.data.perc_c >= 2.5) { txt = f(d.data.perc_c) + '%' }
       }
       else {
         txt = ''
-        if (d.data.perc_d >= 5) { txt = f(d.data.perc_d) + '%' }
+        if (d.data.perc_d >= 2.5) { txt = f(d.data.perc_d) + '%' }
       }
-    });
+    return txt});
 
   var legend = d3.select("#my_dataviz").append("svg")
     .attr("class", "legend")
