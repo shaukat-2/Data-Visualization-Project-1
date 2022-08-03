@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<meta charset="utf-8">
+<style>
+  .tooltip {
+    color: black;
+    font-size: 12px;
+    font-family: Calibri, sans-serif;
+    background: whitesmoke;
+    padding: 1px;
+    border: 3px solid white;
+    box-shadow: 0 0px 1px black;
+    opacity: 0.9;
+  }
+
+  h1 {
+    text-align: center;
+    font-family: Calibri, sans-serif;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  h4 {
+    text-align: center;
+    font-family: Calibri, sans-serif;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  h5 {
+    text-align: center;
+    font-family: Calibri, sans-serif;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  #selectmenu {
+
+    position: absolute;
+    width: 200px;
+    height: 50px;
+    z-index: 15;
+    top: 40%;
+    left: 70%;
+    margin: -100px 0 0 -150px;
+  }
+
+  .legend {
+
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    z-index: 15;
+    top: 40%;
+    left: 40%;
+    margin: -100px 0 0 -150px;
+  }
+  .button {
+  margin: 0;
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.label{
+  font-family: Calibri, sans-serif;
+  font-weight: bold;
+}
+</style>
+
+<body>
+
+
+  <!-- load the d3.js library -->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+
+  <div id="description">
+    <h1>Top 10 Countries by COVID spread</h1>
+    <h4>This bar plot shows 10 countries with highest number of COVID cases. Drop down menu let's you toggle between
+      Confirmed Cases and Deaths stats in these 10 countries.</h4>
+    <h4 style="color:chocolate">Hover on bars to find out more!!!</h4>
+  </div>
+  <div id="selectmenu"></div>
+  <div id="my_dataviz"><div id="legendLabel"></div></div>
+  <script type="text/javascript" src="bar2.js"></script>
+  <script type="text/javascript" src="pie.js"></script>
+  <script type="text/javascript" src="bar.js"></script>
+  <script>
+    function togglePressed(){d3.selectAll("div").html("");createBar();}
+    margin = 100
+    margin2 = 200
+    height = window.innerHeight * 0.6
+    width = window.innerWidth * 0.6
+    var CasesY
+    var DeathsY
+    var CountriesX
+    var selectionValue = ["Cases", "Deaths"];
+    var selectedOption
+    var selectedCountry
+    var df
+    var consistentColor
+    createBar()
+  </script>
+
+
+
+</body>
