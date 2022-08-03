@@ -133,6 +133,7 @@ function UpdateData(selectedOption) {
     .attr("text-anchor", "middle")
     .style("font-family", "Calibri, sans-serif;")
     .style("font-weight", "bold;")
+    .style("font-size", "12px;")
     .attr("fill", function (d) {
       nColor = d3.rgb(blues(d.Country));
       var bright_or_dark = 0.2126 * nColor.r + 0.7152 * nColor.g + 0.0722 * nColor.b;
@@ -164,6 +165,7 @@ function UpdateData(selectedOption) {
     .attr("text-anchor", "middle")
     .style("font-family", "Calibri, sans-serif;")
     .style("font-weight", "bold;")
+    .style("font-size", "12px;")
     .attr("fill", function (d) {
       nColor = d3.rgb(blues(d.Country));
       var bright_or_dark = 0.2126 * nColor.r + 0.7152 * nColor.g + 0.0722 * nColor.b;
