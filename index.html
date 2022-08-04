@@ -55,19 +55,31 @@
     left: 40%;
     margin: -100px 0 0 -150px;
   }
-  .button {
-  margin: 0;
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-.label{
-  font-family: Calibri, sans-serif;
-  font-weight: bold;
-}
 
+  .button {
+    margin: 0;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+  .label {
+    font-family: Calibri, sans-serif;
+    font-weight: bold;
+  }
+
+  .annotation-note-title,
+  text.title {
+    font-weight: bold;
+  }
+
+  text.title {
+    font-size: 1em;
+    font-family: Calibri, sans-serif;
+    font-weight: bold;
+  }
 </style>
 
 <body>
@@ -75,7 +87,9 @@
 
   <!-- load the d3.js library -->
   <script src="https://d3js.org/d3.v5.min.js"></script>
-
+  <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+  <svg id="annotation" width=200 height=200>
+  </svg>
   <div id="description">
     <h1>Top 10 Countries by COVID spread</h1>
     <h4>This bar plot shows 10 countries with highest number of COVID cases. Drop down menu let's you toggle between
@@ -83,12 +97,19 @@
     <h4 style="color:chocolate">Hover on bars to find out more!!!</h4>
   </div>
   <div id="selectmenu"></div>
-  <div id="my_dataviz"><div id="legendLabel"></div></div>
+  <div id="my_dataviz">
+    <div id="legendLabel"></div>
+  </div>
+  <script>
+
+
+
+  </script>
   <script type="text/javascript" src="bar2.js"></script>
   <script type="text/javascript" src="pie.js"></script>
   <script type="text/javascript" src="bar.js"></script>
   <script>
-    function togglePressed(){d3.selectAll("div").html("");createBar();}
+    function togglePressed() { d3.selectAll("div").html(""); createBar(); }
     margin = 100
     margin2 = 200
     height = window.innerHeight * 0.6

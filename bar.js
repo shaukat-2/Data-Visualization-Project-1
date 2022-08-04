@@ -63,6 +63,65 @@ function UpdateData(selectedOption) {
     .style("visibility", "hidden");
   tooltip.append("p");
 
+  if (selectedOption == 0) {
+    label_annotate = "India is an underdeveloping country while USA is developed. This indicates that COVID Spread rate is not related to how good medical facilities are. Click on bars to drill down.";
+
+    const annotations = [
+      {
+        type: d3.annotationCalloutElbow,
+        note: {
+          label: label_annotate,
+          wrap: 250
+        },
+        connector: {
+          end: "arrow"
+        },
+        x: 100,
+        y: 170,
+        //data: { date: "18-Sep-09", close: 185.02 },
+        dy: -60,
+        dx: 60
+      }].map(function (d) { d.color = "chocolate"; return d });
+
+    const makeAnnotations = d3.annotation()
+      .type(d3.annotationLabel)
+      .annotations(annotations);
+
+    svg
+      .append("g").attr("transform", "translate(" + 250 + "," + 80 + ")")
+      .attr("class", "annotation-group")
+      .call(makeAnnotations)
+  }
+  else {
+    label_annotate = "Brazil is an under-developing country while USA is first-world country. This indicates that COVID Spread rate is not related to how good medical facilities are. Click on bars to drill down.";
+
+    const annotations = [
+      {
+        type: d3.annotationCalloutElbow,
+        note: {
+
+          label: label_annotate,
+          wrap: 250
+        },
+        connector: {
+          end: "arrow"
+        },
+        x: 180,
+        y: 140,
+        //data: { date: "18-Sep-09", close: 185.02 },
+        dy: -60,
+        dx: 60
+      }].map(function (d) { d.color = "chocolate"; return d });
+
+    const makeAnnotations = d3.annotation()
+      .type(d3.annotationLabel)
+      .annotations(annotations);
+
+    svg
+      .append("g").attr("transform", "translate(" + 250 + "," + 80 + ")")
+      .attr("class", "annotation-group")
+      .call(makeAnnotations)
+  }
 
   d3.select("svg")
     .append("g")
@@ -160,7 +219,7 @@ function UpdateData(selectedOption) {
       if (selectedOption == 0) { return ys(d.New_cases) - 2; } else { return ys(d.New_deaths) - 2 };
     })
     .attr('height', function (d) {
-      return 0 
+      return 0
     })
     .attr("text-anchor", "middle")
     .style("font-family", "Calibri, sans-serif;")
@@ -185,8 +244,8 @@ function UpdateData(selectedOption) {
     d3.select(this)
       .style('fill', newColor)
     f = d3.format(".2s")
-    // tooltip.select("p").html(d.Country + "<br />Cases: " + f(d.New_cases) + "<br />Deaths: " + f(d.New_deaths)+ "<br />Click to drill."); return tooltip.style("visibility", "visible")})
-    tooltip.select("p").html(d.Country + "<br />Click to drill."); return tooltip.style("visibility", "visible")
+    tooltip.select("p").html(d.Country + "<br />Cases: " + f(d.New_cases) + "<br />Deaths: " + f(d.New_deaths)); return tooltip.style("visibility", "visible")
+    //tooltip.select("p").html(d.Country); return tooltip.style("visibility", "visible")
   })
     .on("mousemove", function () { return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
     .on("mouseout", function () {

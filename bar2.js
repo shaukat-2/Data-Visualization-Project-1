@@ -41,6 +41,34 @@ function UpdateBar2(selectedOption, selectedCountry, filteredData, consistentCol
 
   var svg = d3.select("#my_dataviz").append("svg").attr("width", window.innerWidth).attr("height", window.innerHeight)
 
+  label_annotate = "Click on any bar to end.";
+
+  const annotations = [
+    {
+      type: d3.annotationCalloutElbow,
+      note: {
+        label: label_annotate,
+        wrap: 250
+      },
+      connector: {
+        end: "arrow"
+      },
+      x: 900,
+      y: 350,
+      //data: { date: "18-Sep-09", close: 185.02 },
+      dy: -60,
+      dx: 60
+    }].map(function (d) { d.color = consistentColor.darker(1); return d });
+
+  const makeAnnotations = d3.annotation()
+    .type(d3.annotationLabel)
+    .annotations(annotations);
+
+  svg
+    .append("g").attr("transform", "translate(" + 250 + "," + 80 + ")")
+    .attr("class", "annotation-group")
+    .call(makeAnnotations)
+
   var xs = d3.scaleBand().domain(MonthX).range([0, width]).padding(.1);
   var color = consistentColor;
 
