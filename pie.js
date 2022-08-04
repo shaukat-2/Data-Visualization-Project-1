@@ -34,11 +34,11 @@ function UpdatePie(selectedOption, selectedCountry, filteredData, consistentColo
 
   if(selectedOption==0){
   if(mxc==2020){st = "Most of the cases reported in year "+mxc+", when the pandemic started. Click on slice to drill down."}
-  else if(mxc==2021){st = "Cases reported in year "+mxc+", when we faced 3rd and 4th waves of pandemic. Click on slice to drill down."}
+  else if(mxc==2021){st = "Most of cases reported in year "+mxc+", when we faced 3rd and 4th waves of pandemic. Click on slice to drill down."}
   else{st = "Most of the cases reported in year "+mxc+", which is strange because most of the population is now vaccinated. It may be an indication of a new variant. Click on slice to drill down."}
   }
   else{
-    st = "Highest# Deaths reported in Year: "+mxd+".\nClick on slice to drill down.";
+    st = "Highest Deaths reported in Year: "+mxd+". Click on slice to drill down.";
   }
 
   if (selectedOption == 0) { ss = 'Cases' } else { ss = "Deaths" }
