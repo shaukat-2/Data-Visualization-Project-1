@@ -38,7 +38,7 @@ function UpdatePie(selectedOption, selectedCountry, filteredData, consistentColo
   else{st = "Most of the cases reported in year "+mxc+", which is strange because most of the population is now vaccinated. It may be an indication of a new variant. Click on slice to drill down."}
   }
   else{
-    st = "Highest# Deaths reported during Year: "+mxd+". Click on slice to drill down.";
+    st = "Highest# Deaths reported in Year: "+mxd+".\nClick on slice to drill down.";
   }
 
   if (selectedOption == 0) { ss = 'Cases' } else { ss = "Deaths" }
@@ -117,7 +117,7 @@ function UpdatePie(selectedOption, selectedCountry, filteredData, consistentColo
         type: d3.annotationCalloutElbow,
         note: {
           label: label_annotate,
-          wrap: 250
+          wrap: 150
         },
         connector: {
           end: "arrow"
