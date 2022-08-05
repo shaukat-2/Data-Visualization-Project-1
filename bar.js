@@ -71,7 +71,7 @@ function UpdateData(selectedOption) {
         type: d3.annotationCalloutElbow,
         note: {
           label: label_annotate,
-          wrap: 300
+          wrap: 250
         },
         connector: {
           end: "arrow"
@@ -101,7 +101,7 @@ function UpdateData(selectedOption) {
         note: {
 
           label: label_annotate,
-          wrap: 300
+          wrap: 250
         },
         connector: {
           end: "arrow"

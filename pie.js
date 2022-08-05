@@ -117,7 +117,7 @@ function UpdatePie(selectedOption, selectedCountry, filteredData, consistentColo
         type: d3.annotationCalloutElbow,
         note: {
           label: label_annotate,
-          wrap: 150
+          wrap: 250
         },
         connector: {
           end: "arrow"
