@@ -29,7 +29,7 @@ function UpdateBar2(selectedOption, selectedCountry, filteredData, consistentCol
   if (selectedOption == 0) { ss = 'Cases' } else { ss = "Deaths" }
   s2 = "<h4>This bar chart shows monthly distribution of confirmed " + ss + " in " + selectedCountry + " for the year " + selectedyear + "</h4>"
   s1 = "<h1>Year: " + selectedyear + " Distribution of COVID " + ss + " for " + selectedCountry + "</h1>"
-  s3 = "<h4 style='color:chocolate'>Hover on bars to find out more!!!</h4>"
+  s3 = "<h4 style='color:"+consistentColor+"'>Hover on bars to find out more!!!</h4>"
   heading = s1 + s2 + s3
   d3.select("#description").html(heading)
 
