@@ -89,7 +89,6 @@ function UpdateBar2(selectedOption, selectedCountry, filteredData, consistentCol
     .attr("transform", "translate(" + margin2 + "," + margin + ")")
     .call(d3.axisLeft(ys).tickFormat(d3.format("~s")))
     .selectAll("text")
-    .style("font-family", "Calibri, sans-serif;")
     .style("font-weight", "bold;")
     .style("font-size", "12px;");
 
@@ -102,7 +101,6 @@ function UpdateBar2(selectedOption, selectedCountry, filteredData, consistentCol
     .attr("dx", "-1em")
     .attr("dy", "-0.5em")
     .attr("transform", "rotate(-60)")
-    .style("font-family", "Calibri, sans-serif;")
     .style("font-weight", "bold;")
     .style("font-size", "12px;");
 
@@ -151,7 +149,6 @@ function UpdateBar2(selectedOption, selectedCountry, filteredData, consistentCol
     .attr("y", d => { return height; })
     .attr("height", 0)
     .attr("text-anchor", "middle")
-    .style("font-family", "Calibri, sans-serif;")
     .style("font-weight", "bold;")
     .attr("fill", function (d) {
       nColor = d3.rgb(color);
@@ -182,7 +179,6 @@ function UpdateBar2(selectedOption, selectedCountry, filteredData, consistentCol
       return 0
     })
     .attr("text-anchor", "middle")
-    .style("font-family", "Calibri, sans-serif;")
     .style("font-weight", "bold;")
     .attr("fill", function (d) {
       nColor = d3.rgb(color);

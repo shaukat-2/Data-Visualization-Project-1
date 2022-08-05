@@ -184,7 +184,6 @@ function UpdatePie(selectedOption, selectedCountry, filteredData, consistentColo
         "end" : "start";
     })
     .attr("font-size", "1em")
-    .style("font-family", "Calibri, sans-serif;")
     .style("font-weight", "bold;")
     .attr("fill", function (d, i) {
       var bright_or_dark = 0.2126 * color(i).r + 0.7152 * color(i).g + 0.0722 * color(i).b;
@@ -227,7 +226,6 @@ function UpdatePie(selectedOption, selectedCountry, filteredData, consistentColo
     .attr("x", 24)
     .attr("y", 9)
     .attr("dy", ".35em")
-    .style("font-family", "Calibri, sans-serif;")
     .text(function (d) { return d.year; });
 
 

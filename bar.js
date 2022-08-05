@@ -128,7 +128,6 @@ function UpdateData(selectedOption) {
     .attr("transform", "translate(" + margin2 + "," + margin + ")")
     .call(d3.axisLeft(ys).tickFormat(d3.format("~s")))
     .selectAll("text")
-    .style("font-family", "Calibri, sans-serif;")
     .style("font-weight", "bold;")
     .style("font-size", "12px;");
 
@@ -141,7 +140,6 @@ function UpdateData(selectedOption) {
     .attr("dx", "-1em")
     .attr("dy", "-0.5em")
     .attr("transform", "rotate(-60)")
-    .style("font-family", "Calibri, sans-serif;")
     .style("font-weight", "bold;")
     .style("font-size", "12px;");
 
@@ -190,7 +188,6 @@ function UpdateData(selectedOption) {
     .attr("y", d => { return height; })
     .attr("height", 0)
     .attr("text-anchor", "middle")
-    .style("font-family", "Calibri, sans-serif;")
     .style("font-weight", "bold;")
     .style("font-size", "12px;")
     .attr("fill", function (d) {
@@ -222,7 +219,6 @@ function UpdateData(selectedOption) {
       return 0
     })
     .attr("text-anchor", "middle")
-    .style("font-family", "Calibri, sans-serif;")
     .style("font-weight", "bold;")
     .style("font-size", "12px;")
     .attr("fill", function (d) {
